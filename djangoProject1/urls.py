@@ -25,6 +25,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('captcha/', include('captcha.urls')),
     path('', include('women.urls')),
+    path('api/v1/womenlist/', WomenAPIList.as_view()),
+    path('api/v1/womenlist/<int:pk>/', WomenAPIList.as_view()),
 ]
 
 if settings.DEBUG:
