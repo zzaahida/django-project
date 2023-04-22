@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+
+
+{% block content %}
+<div class="container">
+    <h3>{{product.title}}</h3><hr>
+    <div class="row">
+        <div class="col-md-4">
+            <img src="{{product.image.url}}" alt="" class="img-fluid">
+            <div class="row">
+                {% for pi in product.productimage_set.all %}
+                <div class="col-md-4 p-3">
+                    <a href="{{pi.image.url}}" target="_blank">
+                        <img src="{{pi.image.url}}" class="img-fluid" style="height: 100px; object-fit: contain;" alt="">
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="col-md-8">
+            <h4>{{product.title}} (осталось {{product.view_count}} )</h4>
+            <h5>Kатегория: {{product.category}}</h5>
+
+            <h5>Цена: старый: <strike>{{product.marked_price}}тг</strike> текущий: {{product.selling_price}}тг</h5>
+            {% if user.is_authenticated %}
+                <form method="post">
+                {% csrf_token %}
+                    <input type="hidden" name="product_id" value="{{ product.pk }}">
+                    <button href="#" class="btn btn-info">в корзину</button>
+                </form>
+            {% endif %}
+            <hr>
+            <p>{{product.description}}</p>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

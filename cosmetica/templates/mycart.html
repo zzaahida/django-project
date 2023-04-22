@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <h4>Товары в корзине</h4>
+                <hr>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>№</th>
+                        <th>Товар</th>
+                        <th>Количество</th>
+                        <th>Стоимость</th>
+                        <th>Изменить</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for cart_item in object_list %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{ cart_item.product.title }}</td>
+                            <td>{{ cart_item.count }} штук</td>
+                            <td>{{ cart_item.product.selling_price }} тг</td>
+                            <td>
+                                <a href="{% url 'manager_cart' cart_item.id %}?action=inc"
+                                   class="btn btn-primary">+</a>
+                                <a href="{% url 'manager_cart' cart_item.id %}?action=dcr"
+                                   class="btn btn-warning">- </a>
+                                <a href="{% url 'manager_cart' cart_item.id %}?action=rmv" class="btn btn-danger">x </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    <tr>
+                        <th colspan="4" class="text-right">Общий сумма</th>
+                        <th>{{ total_summa }} тг</th>
+                    </tr>
+
+                    </tbody>
+                </table>
+                <form action="{% url 'buyAllProduct'%}" method="post">
+                    {% csrf_token %}
+                    <button class="btn btn-info" > Купить все товары </button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

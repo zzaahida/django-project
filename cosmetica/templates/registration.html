@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+
+{% block title %}Customer Registration{% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 mx-auto">
+            <h4>Регистрация</h4>
+            <hr>
+            <div class="container" style="color: #ffffff;">
+
+
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="col-md-offset-4 ">
+                        <div class="submit-row">
+                            <div class="panel-body">
+
+
+                                <div class="form-group ">
+                                    <label for="{{ form.username.id_for_label }}"
+                                           class="col-md-4 control-label text-dark">Имя<span
+                                            class="text-red">*</span>:</label>
+                                    <div class="col-md-6">
+                                        {{ form.username }}
+                                        {% for error in form.username.errors %}
+                                            <p class="p-d ml-b" style="color: red">{{ error }}</p>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                <div class="form-group ">
+                                    <label for="{{ form.email.id_for_label }}"
+                                           class="col-md-12 control-label text-dark">Email<span
+                                            class="text-red">*</span>:</label>
+                                    <div class="col-md-12">
+                                        {{ form.email }}
+                                         {% for error in form.email.errors %}
+                                            <p class="p-d ml-b" style="color: red">{{ error }}</p>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                <div class="form-group clearfix">
+                                    <label for="{{ form.password.id_for_label }}"
+                                           class="col-md-4 control-label text-dark">Пароль<span
+                                            class="text-red">*</span>:</label>
+                                    <div class="col-md-6">
+                                        {{ form.password1 }}
+                                         {% for error in form.password1.errors %}
+                                            <p class="p-d ml-b" style="color: red">{{ error }}</p>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                <div class="form-group clearfix">
+                                    <label for="{{ form.password_repeat.id_for_label }}"
+                                           class="col-md-4 control-label text-dark">Повтор пароль:</label>
+                                    <div class="col-md-6">
+                                        {{ form.password2 }}
+                                         {% for error in form.password2.errors %}
+                                            <p class="p-d ml-b" style="color: red">{{ error }}</p>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                <div class="form-group clearfix">
+                                    <label for="{{ form.last_name.id_for_label }}"
+                                           class="col-md-4 control-label text-dark">captcha:</label>
+                                    <div class="col-md-6">
+                                        {{ form.captcha }}
+                                         {% for error in form.captcha.errors %}
+                                            <p class="p-d ml-b" style="color: red">{{ error }}</p>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 col-md-offset-4">
+                                    <button class="btn btn-success">Регистрация</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <p> Если есть аккаунт <a href="{% url 'myLogin' %}">Логин</a></p>
+        </div>
+    </div>
+</div>
+{% endblock %}

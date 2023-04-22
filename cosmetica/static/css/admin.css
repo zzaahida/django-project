@@ -1,0 +1,12 @@
+
+
+#container, #header, .module caption, div.breadcrumbs{
+    background-color: #e7d93b;
+}
+#nav-sidebar .current-model{
+    background-color: #dc243a;
+}
+
+#header{
+    background-color: #e7d93b;
+}

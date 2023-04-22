@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+
+
+{% block content %}
+    <div class="container">
+
+        <h1 class="text-center">Добро пожаловать наш сайт </h1>
+        <hr>
+        <div class="row mt-4" style="margin-left: 150px">
+            {% for p in object_list %}
+                <div class="col-md-3 card" style="margin-left: 30px">
+                    <div class="m-3">
+                        <h4><a href="{{ p.get_absolute_url }}">{{ p.title }}</a></h4>
+                        <img src="{{ p.image.url }}" alt="" class="img-fluid"
+                             style="height: 200px; object-fit: contain;">
+                        <p class="mt-3">Цена: <strike>старый. {{ p.marked_price }}тг</strike>
+                            текущий. {{ p.selling_price }}тг</p>
+                        {% if user.is_authenticated %}
+                            <center>
+                            <form action="{{ p.get_absolute_url }}" method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="product_id" value="{{ p.pk }}">
+
+                                <button class="btn btn-info">в корзину</button>
+                            </form>
+                            </center>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <nav aria-label="..." style="margin-left: 400px; margin-top: 30px">
+            <ul class="pagination">
+                {% if page_obj.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Назад</a>
+                    </li>
+                {% else %}
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Назад</a>
+                    </li>
+                {% endif %}
+
+                {% for i in page_obj.paginator.page_range %}
+                    {% if i == page_obj.number %}
+                        <li class="page-item active"><a class="page-link">{{ i }}</a></li>
+                    {% else %}
+                        <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                    {% endif %}
+                {% endfor %}
+
+                {% if page_obj.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.next_page_number }}">след</a>
+                    </li>
+                {% else %}
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#" tabindex="-1" aria-disabled="true">След</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+
+    </div>
+{% endblock %}
