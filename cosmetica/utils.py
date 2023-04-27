@@ -6,6 +6,4 @@ class DataMixin:
         context = kwargs
         cats = Category.objects.all()
         context["cats"] = cats
-        if 'cat_selected' not in context:
-            context["cat_selected"] = 0
         return context

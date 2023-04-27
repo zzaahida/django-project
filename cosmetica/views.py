@@ -7,7 +7,7 @@ from django.contrib.auth.views import LoginView
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.db.models import Q
 from django.http import HttpResponseNotFound
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import TemplateView, ListView, DetailView, CreateView
@@ -20,8 +20,11 @@ from cosmetica.serializers import ProductSerializer, UserSerializer
 from cosmetica.utils import DataMixin
 
 
+# def pageNotFound(request, exeption):
+#     return HttpResponseNotFound('<h1>Страница не найдена</h1>')
+
 def pageNotFound(request, exeption):
-    return HttpResponseNotFound('<h1>Страница не найдена</h1>')
+    return render(request, '404.html', status=404)
 
 
 class IndexView(DataMixin, ListView):
@@ -190,7 +193,8 @@ def my_user_logout(request):
 
 def bylAllInCart(request):
     if request.method == "POST":
-        userItems = Cart.objects.select_related("product").select_related("product__category").filter(user=request.user, status=False).all()
+        userItems = Cart.objects.select_related("product").select_related("product__category").filter(user=request.user,
+                                                                                                      status=False).all()
         itemsMoney = 0
         for i in userItems:
             itemsMoney += i.product.selling_price

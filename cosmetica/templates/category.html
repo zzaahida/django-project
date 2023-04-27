@@ -16,7 +16,7 @@
                              style="height: 200px; object-fit: contain;">
                         <p class="mt-3">Цена: <strike>старый. {{ p.marked_price }}тг</strike>
                             текущий. {{ p.selling_price }}тг</p>
-                        {% if user.is_authenticated %}
+                        {% if user.is_authenticated and not user.is_staff %}
                             <form action="{{ p.get_absolute_url }}" method="post">
                                 {% csrf_token %}
                                 <input type="hidden" name="product_id" value="{{ product.pk }}">

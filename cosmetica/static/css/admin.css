@@ -1,12 +1,12 @@
 
 
 #container, #header, .module caption, div.breadcrumbs{
-    background-color: #e7d93b;
+    background-color: white;
 }
 #nav-sidebar .current-model{
     background-color: #dc243a;
 }
 
 #header{
-    background-color: #e7d93b;
+    background-color: #fc83c2;
 }

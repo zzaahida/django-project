@@ -19,15 +19,15 @@
             </div>
         </div>
         <div class="col-md-8">
-            <h4>{{product.title}} (осталось {{product.view_count}} )</h4>
+            <h4>{{product.title}} (осталось {{product.count}}шт)</h4>
             <h5>Kатегория: {{product.category}}</h5>
 
-            <h5>Цена: старый: <strike>{{product.marked_price}}тг</strike> текущий: {{product.selling_price}}тг</h5>
-            {% if user.is_authenticated %}
+            <h5>Цена:<strike>{{product.marked_price}}тг</strike> <br>Со скидкой:{{product.selling_price}}тг</h5>
+            {% if user.is_authenticated and not user.is_staff %}
                 <form method="post">
                 {% csrf_token %}
                     <input type="hidden" name="product_id" value="{{ product.pk }}">
-                    <button href="#" class="btn btn-info">в корзину</button>
+                    <button href="#" class="btn btn-outline-dark">в корзину</button>
                 </form>
             {% endif %}
             <hr>
