@@ -1,3 +1,5 @@
+from debug_toolbar._stubs import RequestContext
+from django import http
 from django.contrib import messages
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
@@ -8,6 +10,7 @@ from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.db.models import Q
 from django.http import HttpResponseNotFound
 from django.shortcuts import redirect, render
+from django.template import loader, TemplateDoesNotExist, Context
 from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import TemplateView, ListView, DetailView, CreateView
@@ -21,11 +24,32 @@ from cosmetica.serializers import ProductSerializer, UserSerializer
 from cosmetica.utils import DataMixin
 
 
-# def pageNotFound(request, exeption):
-#     return HttpResponseNotFound('<h1>Страница не найдена</h1>')
-
 def pageNotFound(request, exeption):
-    return render(request, '404.html', status=404)
+    return render(request, 'errors/404.html', status=404)
+
+
+def error400(request, *args, **argv):
+    response = render('errors/400error.html', {})
+    response.status_code = 400
+    return response
+
+
+def error403(request, *args, **argv):
+    print('Handler 403 was called!')
+    params = {
+        'user': request.user,
+    }
+    response = render('errors/403error.html', params)
+    response.status_code = 403
+    return response
+
+
+def server_error(request, template_name='errors/500error.html'):
+    try:
+        template = loader.get_template(template_name)
+    except TemplateDoesNotExist:
+        return http.HttpResponseServerError('<h1>Server Error (500)</h1>')
+    return http.HttpResponseServerError(template.render(Context({"error": "500"})))
 
 
 class IndexView(DataMixin, ListView):
