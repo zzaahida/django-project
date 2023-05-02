@@ -1,4 +1,3 @@
-from debug_toolbar._stubs import RequestContext
 from django import http
 from django.contrib import messages
 from django.contrib.auth import logout

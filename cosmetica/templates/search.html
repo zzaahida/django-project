@@ -1,9 +1,10 @@
 {% extends 'base.html' %}
+{% load templates_tags %}
 {% block content %}
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <h3>Результаты по поиску : <span class="text-info">"{{ request.GET.keyword }}"</span></h3>
+                <h3>Результаты по поиску : <span class="text-info">"{{ request.GET.keyword }}" время : {% current_time "%d/%m %H:%M:%S" %}</span></h3>
                 <hr>
                 {% for result in results %}
                     <div class="row">
