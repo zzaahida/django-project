@@ -12,6 +12,7 @@ from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import TemplateView, ListView, DetailView, CreateView
 from rest_framework import viewsets
+from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticated, AllowAny, IsAdminUser
 
 from cosmetica.forms import RegisterForm
@@ -238,9 +239,16 @@ class ManagerCartView(View):
         return redirect("cart")
 
 
+class LargeResultsSetPagination(PageNumberPagination):
+    page_size = 3
+    page_size_query_param = 'page_size'
+    max_page_size = 10000
+
+
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+    pagination_class = LargeResultsSetPagination
 
     def get_permissions(self):
         if self.action == 'retrieve':
